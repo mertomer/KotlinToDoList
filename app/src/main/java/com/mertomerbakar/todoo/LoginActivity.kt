@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(view)
 
         supportActionBar?.hide()
-        mert=User("m.omerbakargmail.com","1234")
+        mert=User("m.omerbakar@gmail.com","Eren@2003")
     }
 
     fun loginbtn(view: View) {
@@ -41,8 +41,21 @@ class LoginActivity : AppCompatActivity() {
             ).matcher(email).matches()
         }
 
+        fun isPasswordValid(password: String): Boolean {
+            val passwordREGEX = Pattern.compile("^" +
+                    "(?=.*[0-9])" +         //at least 1 digit
+                    "(?=.*[a-z])" +         //at least 1 lower case letter
+                    "(?=.*[A-Z])" +         //at least 1 upper case letter
+                    "(?=.*[a-zA-Z])" +      //any letter
+                    "(?=.*[@#$%^&+=])" +    //at least 1 special character
+                    "(?=\\S+$)" +           //no white spaces
+                    ".{8,}" +               //at least 8 characters
+                    "$");
+            return passwordREGEX.matcher(password).matches()
+        }
+
         var status = if (binding.emailContainer.text.toString().equals(mert.email)
-            && binding.passwordContainer.text.toString().equals(mert.password)&&isEmailValid(mert.email)==true)
+            && binding.passwordContainer.text.toString().equals(mert.password)&&isEmailValid(mert.email)==true&&isPasswordValid(mert.password))
 
 
 
@@ -76,7 +89,8 @@ class LoginActivity : AppCompatActivity() {
                 }
                 alert.show()
             }
-            else if(isEmailValid(binding.emailContainer.text.toString())==true&&binding.emailContainer.text.toString()!=mert.email){
+
+            else if(isEmailValid(binding.emailContainer.text.toString())==true&&binding.emailContainer.text.toString()!=mert.email&&isPasswordValid(mert.password)){
                 alert.setTitle("Wrong email or password")
                 alert.setMessage("try again ")
                 print("Email is not validate. Show error")
